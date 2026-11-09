@@ -1,0 +1,13 @@
+id: qa
+kind: qa
+layer: 5
+description: API automation (Rest Assured, TestNG, Allure) and load tests (Gatling) against running services.
+package: io.github.williamthomas1997.amef.qa
+artifacts: { main: amef-qa }
+provides: []
+requires: []
+infra: []
+bans: []
+config-prefix: amef.qa
+status: planned
+milestone: M9

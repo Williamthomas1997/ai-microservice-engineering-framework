@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!--
+    Reactor aggregator only (no inheritance). Module layout: docs/IMPLEMENTATION_PLAN.md and ADR-001.
+    qa/ is deliberately not listed: it is a standalone project that targets running services.
+  -->
+  <groupId>io.github.williamthomas1997</groupId>
+  <artifactId>amef-root</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>AMEF :: root</name>
+  <description>AI Microservice Engineering Framework: reactor build.</description>
+
+  <properties>
+    <maven.install.skip>true</maven.install.skip>
+    <maven.deploy.skip>true</maven.deploy.skip>
+  </properties>
+
+  <modules>
+    <!-- L0 build -->
+    <module>bom</module>
+    <module>build-parent</module>
+    <module>platform/parent</module>
+
+    <!-- L1 foundation -->
+    <module>foundation/contracts</module>
+    <module>foundation/architecture-guard</module>
+    <module>foundation/test-support</module>
+
+    <!-- L2 to L4 bricks -->
+    <module>bricks/observability/core</module>
+    <module>bricks/observability/reactive</module>
+    <module>bricks/observability/servlet</module>
+    <module>bricks/redis/core</module>
+    <module>bricks/redis/reactive</module>
+    <module>bricks/redis/servlet</module>
+    <module>bricks/messaging/core</module>
+    <module>bricks/messaging/reactive</module>
+    <module>bricks/messaging/servlet</module>
+    <module>bricks/resilience/core</module>
+    <module>bricks/resilience/reactive</module>
+    <module>bricks/resilience/servlet</module>
+    <module>bricks/external-call/core</module>
+    <module>bricks/external-call/reactive</module>
+    <module>bricks/external-call/servlet</module>
+    <module>bricks/cache-sync/core</module>
+    <module>bricks/cache-sync/reactive</module>
+    <module>bricks/cache-sync/servlet</module>
+
+    <!-- L5 apps -->
+    <module>apps/gateway</module>
+    <module>apps/audit-service</module>
+    <module>apps/sample-service-reactive</module>
+    <module>apps/sample-service-servlet</module>
+
+    <!-- Platform self-checks (layer rule over all modules) -->
+    <module>platform/rules</module>
+  </modules>
+</project>

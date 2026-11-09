@@ -1,0 +1,14 @@
+id: external-call
+kind: brick
+layer: 4
+description: One ExternalCallPort for REST, SOAP and MQ with templates, rules and flows.
+package: io.github.williamthomas1997.amef.externalcall
+stacks: [reactive, servlet]
+artifacts: { core: amef-external-call-core, reactive: amef-external-call-reactive, servlet: amef-external-call-servlet }
+provides: [ExternalCallPort, ClientRegistry, DefinitionRepository, PayloadCodec]
+requires: [contracts, observability, redis, messaging, resilience]
+infra: [wiremock]
+bans: [spring-boot-starter-restclient, spring-boot-starter-webclient, spring-cloud-starter-openfeign]
+config-prefix: amef.externalcall
+status: planned
+milestone: M5

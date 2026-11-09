@@ -1,0 +1,13 @@
+id: test-support
+kind: foundation
+layer: 1
+description: Shared Testcontainers setup, behaviour-suite base classes, BlockHound setup.
+package: io.github.williamthomas1997.amef.testsupport
+artifacts: { main: amef-test-support }
+provides: [ContainerSupport, BehaviourSuiteBase, BlockHoundSupport]
+requires: [contracts]
+infra: []
+bans: []
+config-prefix: amef.testsupport
+status: planned
+milestone: M1

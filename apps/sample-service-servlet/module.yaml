@@ -1,0 +1,13 @@
+id: sample-service-servlet
+kind: app
+layer: 5
+description: Reference service (Spring MVC), fictional Acme domain.
+package: io.github.williamthomas1997.amef.sample.servlet
+artifacts: { main: amef-sample-service-servlet }
+provides: []
+requires: [contracts, observability, redis, messaging, resilience, external-call, cache-sync]
+infra: [redis, kafka, postgres, wiremock]
+bans: []
+config-prefix: amef.sample
+status: planned
+milestone: M8

@@ -1,0 +1,14 @@
+id: redis
+kind: brick
+layer: 3
+description: Two-level caching, locks, rate limiter, idempotency, sequences, streams queue.
+package: io.github.williamthomas1997.amef.redis
+stacks: [reactive, servlet]
+artifacts: { core: amef-redis-core, reactive: amef-redis-reactive, servlet: amef-redis-servlet }
+provides: [CachePort, LockPort, IdempotencyPort, InvalidationBus, StreamQueue]
+requires: [contracts, observability]
+infra: [redis]
+bans: [spring-boot-starter-data-redis, spring-boot-starter-data-redis-reactive]
+config-prefix: amef.redis
+status: planned
+milestone: M3

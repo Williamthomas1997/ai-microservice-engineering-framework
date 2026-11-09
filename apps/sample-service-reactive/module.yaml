@@ -1,0 +1,13 @@
+id: sample-service-reactive
+kind: app
+layer: 5
+description: Reference service (WebFlux), fictional Acme domain.
+package: io.github.williamthomas1997.amef.sample.reactive
+artifacts: { main: amef-sample-service-reactive }
+provides: []
+requires: [contracts, observability, redis, messaging, resilience, external-call, cache-sync]
+infra: [redis, kafka, postgres, wiremock]
+bans: []
+config-prefix: amef.sample
+status: planned
+milestone: M8

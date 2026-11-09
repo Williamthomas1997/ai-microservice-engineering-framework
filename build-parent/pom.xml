@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!--
+    Parent POM for services built on AMEF. It inherits amef-bom (all versions) and adds the quality gates:
+    Java/Maven baseline, banned infrastructure starters (services use bricks instead), Surefire/Failsafe,
+    JaCoCo coverage gate on application + domain packages, and the architecture-guard auto-run (wired in M1).
+
+    Service usage:
+      <parent>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-build-parent</artifactId>
+        <version>...</version>
+      </parent>
+      <properties>
+        <amef.guard.base-package>com.acme.orders</amef.guard.base-package>
+      </properties>
+  -->
+  <parent>
+    <groupId>io.github.williamthomas1997</groupId>
+    <artifactId>amef-bom</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <relativePath>../bom/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>amef-build-parent</artifactId>
+  <packaging>pom</packaging>
+
+  <name>AMEF :: build-parent</name>
+  <description>Parent POM for services built on AMEF: enforcer bans, test plugins, JaCoCo gate, guard auto-run.</description>
+
+  <properties>
+    <java.version>21</java.version>
+    <maven.compiler.release>${java.version}</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- Quality gates, overridable per service -->
+    <amef.coverage.minimum>0.70</amef.coverage.minimum>
+    <!-- Base package the architecture guard scans. Required once the guard runs (M1). -->
+    <amef.guard.base-package></amef.guard.base-package>
+    <!-- Extra JVM flags for test forks. Reactive modules append the BlockHound flag in their own POM. -->
+    <amef.test.jvm-args>-XX:+EnableDynamicAgentLoading</amef.test.jvm-args>
+    <!-- Set by jacoco:prepare-agent; empty default so Surefire/Failsafe late replacement never fails. -->
+    <argLine></argLine>
+
+    <!-- Plugin versions (Spring Boot's plugin versions where Boot manages them, see ADR-000) -->
+    <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
+    <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+    <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+    <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
+    <maven-failsafe-plugin.version>3.5.6</maven-failsafe-plugin.version>
+    <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
+    <maven-jar-plugin.version>3.5.1</maven-jar-plugin.version>
+    <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
+    <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
+    <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
+    <jacoco-maven-plugin.version>0.8.16</jacoco-maven-plugin.version>
+    <gatling-maven-plugin.version>4.21.12</gatling-maven-plugin.version>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${maven-clean-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven-resources-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
+          <configuration>
+            <release>${maven.compiler.release}</release>
+            <parameters>true</parameters>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+          <configuration>
+            <argLine>@{argLine} ${amef.test.jvm-args}</argLine>
+            <systemPropertyVariables>
+              <amef.guard.base-package>${amef.guard.base-package}</amef.guard.base-package>
+            </systemPropertyVariables>
+            <!--
+              Guard auto-run (completed in M1): the architecture-guard test-jar will be added here through
+              <dependenciesToScan>, so `mvn test` in every service runs the rule pack against
+              ${amef.guard.base-package}. Not active in M0: the rule pack does not exist yet.
+            -->
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${maven-failsafe-plugin.version}</version>
+          <configuration>
+            <argLine>@{argLine} ${amef.test.jvm-args}</argLine>
+          </configuration>
+          <executions>
+            <execution>
+              <id>integration-tests</id>
+              <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven-jar-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>${maven-install-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>${maven-enforcer-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${jacoco-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${spring-boot.version}</version>
+          <executions>
+            <execution>
+              <id>repackage</id>
+              <goals>
+                <goal>repackage</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>io.gatling</groupId>
+          <artifactId>gatling-maven-plugin</artifactId>
+          <version>${gatling-maven-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>amef-baseline</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>[21,)</version>
+                </requireJavaVersion>
+                <requireMavenVersion>
+                  <version>[3.9,)</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+          <execution>
+            <!--
+              Services must not add infrastructure starters directly; the owning brick provides them (spec 2.2).
+              Keep this list equal to the union of `bans` in bricks/*/brick.yaml: tools/manifests.py validate checks it.
+              Only direct dependencies are checked, so bricks may still bring these libraries transitively.
+            -->
+            <id>amef-banned-dependencies</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <searchTransitive>false</searchTransitive>
+                  <message>Use the AMEF brick that owns this concern instead of adding the library directly (see the brick catalogue in the README).</message>
+                  <excludes>
+                    <!-- amef:bans:start -->
+                    <exclude>io.github.resilience4j:resilience4j-spring-boot3</exclude>
+                    <exclude>io.github.resilience4j:resilience4j-spring-boot4</exclude>
+                    <exclude>io.micrometer:micrometer-tracing-bridge-brave</exclude>
+                    <exclude>org.springframework.boot:spring-boot-starter-data-redis</exclude>
+                    <exclude>org.springframework.boot:spring-boot-starter-data-redis-reactive</exclude>
+                    <exclude>org.springframework.boot:spring-boot-starter-kafka</exclude>
+                    <exclude>org.springframework.boot:spring-boot-starter-restclient</exclude>
+                    <exclude>org.springframework.boot:spring-boot-starter-webclient</exclude>
+                    <exclude>org.springframework.boot:spring-boot-starter-zipkin</exclude>
+                    <exclude>org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j</exclude>
+                    <exclude>org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j</exclude>
+                    <exclude>org.springframework.cloud:spring-cloud-starter-openfeign</exclude>
+                    <exclude>org.springframework.kafka:spring-kafka</exclude>
+                    <!-- amef:bans:end -->
+                  </excludes>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <!-- Coverage gate on business code only: application + domain packages (spec 5.2). -->
+            <id>coverage-gate</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <rule>
+                  <!-- Every package named *.application(.*) or *.domain(.*) must meet the minimum. -->
+                  <element>PACKAGE</element>
+                  <includes>
+                    <include>*.application</include>
+                    <include>*.application.*</include>
+                    <include>*.domain</include>
+                    <include>*.domain.*</include>
+                  </includes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>${amef.coverage.minimum}</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

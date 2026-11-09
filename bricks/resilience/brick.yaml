@@ -1,0 +1,14 @@
+id: resilience
+kind: brick
+layer: 3
+description: Named Resilience4j policies for servlet decorators and Reactor operators.
+package: io.github.williamthomas1997.amef.resilience
+stacks: [reactive, servlet]
+artifacts: { core: amef-resilience-core, reactive: amef-resilience-reactive, servlet: amef-resilience-servlet }
+provides: [ResiliencePolicies, PolicyRegistry]
+requires: [contracts, observability]
+infra: []
+bans: [resilience4j-spring-boot3, resilience4j-spring-boot4, spring-cloud-starter-circuitbreaker-resilience4j, spring-cloud-starter-circuitbreaker-reactor-resilience4j]
+config-prefix: amef.resilience
+status: planned
+milestone: M4

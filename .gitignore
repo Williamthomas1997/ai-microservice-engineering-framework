@@ -1,0 +1,33 @@
+# Local-only planning: names the source systems. Never commit.
+internal/
+
+# Build / IDE
+target/
+*.class
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+
+# Env and secrets
+.env
+*.p12
+*.jks
+*.pem
+*.key
+
+# Python
+__pycache__/
+.venv/
+.pytest_cache/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code machine-specific settings
+.claude/settings.local.json

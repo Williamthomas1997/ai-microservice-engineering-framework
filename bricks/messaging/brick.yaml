@@ -1,0 +1,14 @@
+id: messaging
+kind: brick
+layer: 3
+description: Kafka EventPublisher, outbox, consumer base with retry/DLT, AuditSink.
+package: io.github.williamthomas1997.amef.messaging
+stacks: [reactive, servlet]
+artifacts: { core: amef-messaging-core, reactive: amef-messaging-reactive, servlet: amef-messaging-servlet }
+provides: [EventPublisher, OutboxStore, AuditSink, ConsumerBase]
+requires: [contracts, observability]
+infra: [kafka, postgres]
+bans: [spring-kafka, spring-boot-starter-kafka]
+config-prefix: amef.messaging
+status: planned
+milestone: M4

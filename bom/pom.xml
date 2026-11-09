@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!--
+    Bill of materials for consumers. Import it (scope import) or inherit amef-build-parent, which inherits it.
+    Versions are chosen and verified in docs/adr/ADR-000-technology-versions.md. Change them only together with
+    that ADR. Explicit entries below win over the imported BOMs; among the imports, the first one wins, so Spring
+    Boot comes before Spring Cloud.
+  -->
+  <groupId>io.github.williamthomas1997</groupId>
+  <artifactId>amef-bom</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>AMEF :: BOM</name>
+  <description>Versions of every AMEF platform artifact and the third-party libraries the platform builds on.</description>
+  <url>https://github.com/Williamthomas1997/ai-microservice-engineering-framework</url>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+
+  <properties>
+    <!-- Platform baselines (ADR-000) -->
+    <spring-boot.version>4.1.2</spring-boot.version>
+    <spring-cloud.version>2025.1.4</spring-cloud.version>
+
+    <!-- Third-party libraries not managed by Spring Boot / Spring Cloud (ADR-000) -->
+    <resilience4j.version>2.4.0</resilience4j.version>
+    <archunit.version>1.5.1</archunit.version>
+    <wiremock.version>3.13.2</wiremock.version>
+    <blockhound.version>1.0.18.RELEASE</blockhound.version>
+    <velocity.version>2.4.1</velocity.version>
+    <mvel.version>2.6.0.Final</mvel.version>
+    <commons-jexl.version>3.7.1</commons-jexl.version>
+    <rest-assured.version>6.3.0</rest-assured.version>
+    <testng.version>7.12.0</testng.version>
+    <allure.version>3.1.1</allure.version>
+    <gatling.version>3.16.0</gatling.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- AMEF platform: foundation -->
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-contracts</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-architecture-guard</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-architecture-guard</artifactId>
+        <version>${project.version}</version>
+        <type>test-jar</type>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-test-support</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!-- AMEF platform: bricks -->
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-observability-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-observability-reactive</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-observability-servlet</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-redis-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-redis-reactive</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-redis-servlet</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-messaging-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-messaging-reactive</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-messaging-servlet</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-resilience-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-resilience-reactive</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-resilience-servlet</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-external-call-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-external-call-reactive</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-external-call-servlet</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-cache-sync-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-cache-sync-reactive</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.williamthomas1997</groupId>
+        <artifactId>amef-cache-sync-servlet</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!-- Third party: explicit pins -->
+      <dependency>
+        <groupId>com.tngtech.archunit</groupId>
+        <artifactId>archunit</artifactId>
+        <version>${archunit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.tngtech.archunit</groupId>
+        <artifactId>archunit-junit5</artifactId>
+        <version>${archunit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.wiremock</groupId>
+        <artifactId>wiremock-standalone</artifactId>
+        <version>${wiremock.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.projectreactor.tools</groupId>
+        <artifactId>blockhound</artifactId>
+        <version>${blockhound.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.projectreactor.tools</groupId>
+        <artifactId>blockhound-junit-platform</artifactId>
+        <version>${blockhound.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity-engine-core</artifactId>
+        <version>${velocity.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mvel</groupId>
+        <artifactId>mvel2</artifactId>
+        <version>${mvel.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-jexl3</artifactId>
+        <version>${commons-jexl.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>${rest-assured.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>json-schema-validator</artifactId>
+        <version>${rest-assured.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>${testng.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.gatling.highcharts</groupId>
+        <artifactId>gatling-charts-highcharts</artifactId>
+        <version>${gatling.version}</version>
+      </dependency>
+
+      <!-- Third party: imported BOMs (first import wins on conflicts). Resilience4j comes first because the
+           Spring Cloud train manages an older Resilience4j line without the Spring Boot 4 module (ADR-000). -->
+      <dependency>
+        <groupId>io.github.resilience4j</groupId>
+        <artifactId>resilience4j-bom</artifactId>
+        <version>${resilience4j.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-bom</artifactId>
+        <version>${allure.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

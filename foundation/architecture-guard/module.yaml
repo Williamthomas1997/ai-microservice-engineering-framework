@@ -1,0 +1,13 @@
+id: architecture-guard
+kind: foundation
+layer: 1
+description: ArchUnit rule pack (test-jar) run by the build-parent in every service.
+package: io.github.williamthomas1997.amef.guard
+artifacts: { main: amef-architecture-guard }
+provides: [ArchitectureRules]
+requires: [contracts]
+infra: []
+bans: []
+config-prefix: amef.guard
+status: planned
+milestone: M1

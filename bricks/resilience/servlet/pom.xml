@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.github.williamthomas1997</groupId>
+    <artifactId>amef-platform-parent</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <relativePath>../../../platform/parent/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>amef-resilience-servlet</artifactId>
+  <name>AMEF :: resilience :: servlet</name>
+  <description>Named Resilience4j policies for servlet decorators and Reactor operators - servlet module (stub, see docs/IMPLEMENTATION_PLAN.md)</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.github.williamthomas1997</groupId>
+      <artifactId>amef-resilience-core</artifactId>
+    </dependency>
+  </dependencies>
+</project>

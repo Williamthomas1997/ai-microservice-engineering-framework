@@ -1,0 +1,14 @@
+id: cache-sync
+kind: brick
+layer: 4
+description: Keeps distributed caches consistent with the primary DB for back-office writes.
+package: io.github.williamthomas1997.amef.cachesync
+stacks: [reactive, servlet]
+artifacts: { core: amef-cache-sync-core, reactive: amef-cache-sync-reactive, servlet: amef-cache-sync-servlet }
+provides: [SyncCache, CacheSyncAdminApi, TableSync]
+requires: [contracts, observability, redis, messaging]
+infra: [redis, postgres]
+bans: []
+config-prefix: amef.cachesync
+status: planned
+milestone: M6

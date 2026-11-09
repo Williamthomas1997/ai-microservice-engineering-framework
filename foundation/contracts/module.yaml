@@ -1,0 +1,13 @@
+id: contracts
+kind: foundation
+layer: 1
+description: Ports, annotations, response/error model, event and audit schema.
+package: io.github.williamthomas1997.amef.contracts
+artifacts: { main: amef-contracts }
+provides: [ApiResponse, ErrorEnvelope, EventEnvelope, AuditEvent, CachePort, LockPort, IdempotencyPort, EventPublisher, ExternalCallPort, AuditSink, ErrorCatalog, IdGenerator, ClockPort]
+requires: []
+infra: []
+bans: []
+config-prefix: amef.contracts
+status: planned
+milestone: M1

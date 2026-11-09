@@ -1,0 +1,14 @@
+id: observability
+kind: brick
+layer: 2
+description: Tracing, MDC/baggage, request context, masking, structured logs.
+package: io.github.williamthomas1997.amef.observability
+stacks: [reactive, servlet]
+artifacts: { core: amef-observability-core, reactive: amef-observability-reactive, servlet: amef-observability-servlet }
+provides: [RequestContextFilter, MaskingEngine, Sensitive, Loggable, TracePropagation, LegacyHeaderBridge]
+requires: [contracts]
+infra: []
+bans: [micrometer-tracing-bridge-brave, spring-boot-starter-zipkin]
+config-prefix: amef.observability
+status: planned
+milestone: M2

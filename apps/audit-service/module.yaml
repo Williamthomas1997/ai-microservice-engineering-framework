@@ -1,0 +1,13 @@
+id: audit-service
+kind: app
+layer: 5
+description: Consumes AuditEvent, persists it, exposes a query API.
+package: io.github.williamthomas1997.amef.audit
+artifacts: { main: amef-audit-service }
+provides: []
+requires: [contracts, observability, messaging]
+infra: [kafka, postgres]
+bans: []
+config-prefix: amef.audit
+status: planned
+milestone: M8

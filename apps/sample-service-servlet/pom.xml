@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.github.williamthomas1997</groupId>
+    <artifactId>amef-platform-parent</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <relativePath>../../platform/parent/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>amef-sample-service-servlet</artifactId>
+  <name>AMEF :: apps :: sample-service-servlet</name>
+  <description>Reference service (Spring MVC), fictional Acme domain. (stub, see docs/IMPLEMENTATION_PLAN.md)</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <!-- Apps are consumers of the bricks: the banned-dependency rule that platform-parent switches off for
+             bricks applies to them again (spec 2.2, ADR-002). -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>amef-banned-dependencies</id>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -1,0 +1,13 @@
+id: gateway
+kind: app
+layer: 5
+description: Spring Cloud Gateway (WebFlux) on the bricks.
+package: io.github.williamthomas1997.amef.gateway
+artifacts: { main: amef-gateway }
+provides: []
+requires: [contracts, observability, redis, messaging, resilience]
+infra: [redis, postgres, kafka]
+bans: []
+config-prefix: amef.gateway
+status: planned
+milestone: M7
