@@ -27,8 +27,8 @@
 
   <properties>
     <!-- Platform baselines (ADR-000) -->
-    <spring-boot.version>4.1.2</spring-boot.version>
-    <spring-cloud.version>2025.1.4</spring-cloud.version>
+    <spring-boot.version>4.2.0</spring-boot.version>
+    <spring-cloud.version>2026.0.0</spring-cloud.version>
 
     <!-- Third-party libraries not managed by Spring Boot / Spring Cloud (ADR-000) -->
     <resilience4j.version>2.4.0</resilience4j.version>
